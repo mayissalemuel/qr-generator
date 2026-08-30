@@ -24,10 +24,9 @@ export default function CryptoQRGenerator() {
   const [prices, setPrices] = useState({});
   const [qrDataURL, setQrDataURL] = useState('');
   const [copied, setCopied] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const canvasRef = useRef(null);
-
-  // Fetch prices from CoinGecko
+  const [, setLoading] = useState(false);
+  useRef(null);
+// Fetch prices from CoinGecko
   useEffect(() => {
     const fetchPrices = async () => {
       try {
@@ -53,7 +52,7 @@ export default function CryptoQRGenerator() {
     if (!prices[selectedCrypto.id]) return;
 
     const price = prices[selectedCrypto.id][selectedFiat.code];
-    
+
     if (conversionMode === 'crypto' && cryptoAmount) {
       const fiat = (parseFloat(cryptoAmount) * price).toFixed(2);
       setFiatAmount(fiat);
@@ -74,9 +73,9 @@ export default function CryptoQRGenerator() {
       setLoading(true);
       try {
         const QRCode = (await import('qrcode')).default;
-        
+
         // Build payment URI
-        let uri = '';
+        let uri;
         switch (selectedCrypto.symbol) {
           case 'BTC':
             uri = `bitcoin:${walletAddress}?amount=${cryptoAmount}`;
@@ -101,7 +100,7 @@ export default function CryptoQRGenerator() {
             light: '#0a0a0a'
           }
         });
-        
+
         setQrDataURL(dataURL);
       } catch (error) {
         console.error('QR Generation error:', error);
@@ -178,7 +177,7 @@ export default function CryptoQRGenerator() {
         <div className="mb-8 flex justify-center">
           <div className="grid grid-cols-5 bg-[#141414] p-2 rounded-2xl border border-gray-800 shadow-2xl relative w-full max-w-md">
             {/* Sliding background */}
-            <div 
+            <div
               className="absolute top-2 h-[calc(100%-16px)] rounded-xl transition-all duration-300 ease-out"
               style={{
                 left: `calc(8px + ${CRYPTOS.findIndex(c => c.id === selectedCrypto.id)} * ((100% - 16px) / ${CRYPTOS.length}))`,
@@ -187,7 +186,7 @@ export default function CryptoQRGenerator() {
                 boxShadow: `0 0 20px ${selectedCrypto.color}66`
               }}
             />
-            
+
             {CRYPTOS.map((crypto) => (
               <button
                 key={crypto.id}
@@ -244,7 +243,7 @@ export default function CryptoQRGenerator() {
               <label className="block text-sm font-semibold mb-4 text-gray-400 uppercase tracking-wider">
                 Amount & Conversion
               </label>
-              
+
               {/* Crypto Amount */}
               <div className="mb-3">
                 <div className="relative">
@@ -320,9 +319,9 @@ export default function CryptoQRGenerator() {
               <div className="space-y-6 w-full">
                 <div className="flex justify-center">
                   <div className="relative">
-                    <img 
-                      src={qrDataURL} 
-                      alt="Payment QR Code" 
+                    <img
+                      src={qrDataURL}
+                      alt="Payment QR Code"
                       className="w-56 h-56 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-2xl shadow-2xl"
                       style={{ boxShadow: `0 0 40px ${selectedCrypto.color}33` }}
                     />
@@ -348,7 +347,7 @@ export default function CryptoQRGenerator() {
                 <button
                   onClick={downloadQR}
                   className="w-full py-3 sm:py-4 rounded-xl font-semibold transition-all hover:scale-105 flex items-center justify-center gap-2"
-                  style={{ 
+                  style={{
                     backgroundColor: selectedCrypto.color,
                     color: '#0a0a0a',
                     boxShadow: `0 0 20px ${selectedCrypto.color}66`
@@ -373,12 +372,16 @@ export default function CryptoQRGenerator() {
 
         {/* Footer Info */}
         <div className="mt-8 sm:mt-12 text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#141414] border border-gray-800 rounded-full text-sm text-gray-400">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+          <div
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#141414] border border-gray-800 rounded-full text-sm text-gray-400">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"/>
             Live prices updated every 30 seconds
           </div>
           <p className="text-xs text-gray-600">
             Always verify the wallet address before making a payment
+          </p>
+          <p className="text-xs text-gray-500">
+            &copy; 2026 MAYISSA Lemuel. Tous droits réservés.
           </p>
         </div>
       </div>
