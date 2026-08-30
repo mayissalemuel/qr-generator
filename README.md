@@ -1,2 +1,2 @@
 Générateur instantanée de codes QR sécurisés pour les transactions de cryptomonnaie. Système de conversion monétaire en temps réel intégré.
-Lien vers l'application: 
+Lien vers l'application: https://qrgenerator-one-rho.vercel.app/
